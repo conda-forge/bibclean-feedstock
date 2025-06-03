@@ -8,5 +8,7 @@ set -o xtrace -o nounset -o pipefail -o errexit
 
 mkdir -p ${PREFIX}/share/man/man1
 make -j${CPU_COUNT} all mandir=${PREFIX}/share/man/man1 CP=cp CPFLAGS="-r"
-make -j${CPU_COUNT} check mandir=${PREFIX}/share/man/man1 CP=cp CPFLAGS="-r"
+if [[ ${CONDA_BUILD_CROSS_COMPILATION:-0} == 1 ]]; then
+    make -j${CPU_COUNT} check mandir=${PREFIX}/share/man/man1 CP=cp CPFLAGS="-r"
+fi
 make -j${CPU_COUNT} install mandir=${PREFIX}/share/man/man1 CP=cp CPFLAGS="-r"
